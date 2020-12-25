@@ -11,6 +11,11 @@ async def bot_help(message: types.Message):
     text = [
         'Список команд: ',
         '/start - Начать диалог',
-        '/help - Получить справку'
+        '/help - Получить справку',
+        '/merch - Купить мерч от РДШ',
+        '   /sweatshirt - Купить свитшот от РДШ',
+        '   /bomber - Купить бомбер от РДШ',
+        '/list - Список активных школ',
+        '/info - Информация о РДШ'
     ]
     await message.answer('\n'.join(text))
