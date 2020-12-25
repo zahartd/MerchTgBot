@@ -1,16 +1,9 @@
 from aiogram import types
-from aiogram.dispatcher.filters.builtin import CommandHelp
+from aiogram.dispatcher.filters.builtin import CommandStart
 
 from loader import dp
-from utils.misc import rate_limit
 
 
-@rate_limit(5, 'help')
-@dp.message_handler(CommandHelp())
-async def bot_help(message: types.Message):
-    text = [
-        'Список команд: ',
-        '/start - Начать диалог',
-        '/help - Получить справку'
-    ]
-    await message.answer('\n'.join(text))
+@dp.message_handler(text="/order")
+async def bot_start(message: types.Message):
+    await message.answer(f'Заказ, {message.from_user.full_name}!')
