@@ -1,11 +1,30 @@
-async def on_startup(dp):
+from loader import db
+from utils import set_default_commands
+from utils.db_api import database, add_goods
+
+
+async def on_startup(dispatcher):
     import filters
     import middlewares
-    filters.setup(dp)
-    middlewares.setup(dp)
+    filters.setup(dispatcher)
+    middlewares.setup(dispatcher)
+
+    print('Connect to DB')
+    await database.on_startup(dispatcher)
+
+    # Only for first start
+    # # Create table
+    # print('Create tables')
+    # await db.gino.drop_all()
+    # await db.gino.create_all()
+    #
+    # # Add goods
+    # print('Add goods to database')
+    # await add_goods.add_items()
 
     from utils.notify_admins import on_startup_notify
-    await on_startup_notify(dp)
+    await on_startup_notify(dispatcher)
+    await set_default_commands(dispatcher)
 
 
 if __name__ == '__main__':

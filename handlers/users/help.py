@@ -8,14 +8,20 @@ from utils.misc import rate_limit
 @rate_limit(5, 'help')
 @dp.message_handler(CommandHelp())
 async def bot_help(message: types.Message):
-    text = [
+    text: list[str] = [
         'Список команд: ',
-        '/start - Начать диалог',
-        '/help - Получить справку',
-        '/merch - Купить мерч от РДШ',
+        '/start - Запустить бота',
+        '/help - Список доступных команд',
+        '/menu - Главное меню',
+        '/merch - Унать подробнее и купить мерч от РДШ',
         '   /sweatshirt - Купить свитшот от РДШ',
         '   /bomber - Купить бомбер от РДШ',
-        '/list - Список активных школ',
-        '/info - Информация о РДШ'
+        '   /shirt_hb - Купить футболку хб от РДШ',
+        '   /shirt_polo - Купить футболку поло от РДШ',
+        '/basket - Корзина товаров',
+        '/checkout - Оформить заказ',
+        '/edit_basket - Редактировать корзину'
+        '/list - Посмотреть информацию об РДШ',
+        '/info - Посмотреть топ активных школ'
     ]
-    await message.answer('\n'.join(text))
+    await message.answer(text='\n'.join(text))
