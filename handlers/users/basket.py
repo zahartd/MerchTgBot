@@ -28,7 +28,7 @@ async def request_item_size(message: types.Message):
 
 
 # Forming new user basket
-async def form_user_basket(basket_name: list[str], basket_count: list[int], total_price: int, state: FSMContext)\
+async def form_user_basket(basket_name: list[str], basket_count: list[int], total_price: int, state: FSMContext) \
         -> (list, list, int):
     async with state.proxy() as data:
         # Get Item
@@ -59,10 +59,10 @@ async def add_to_basket(user_id: int, message: types.Message, state: FSMContext)
     total_price: int = user.total_price
 
     # Forming new user basket
-    basket_name, basket_count, total_price = form_user_basket(basket_name=basket_name,
-                                                              basket_count=basket_count,
-                                                              total_price=total_price,
-                                                              state=state)
+    basket_name, basket_count, total_price = await form_user_basket(basket_name=basket_name,
+                                                                    basket_count=basket_count,
+                                                                    total_price=total_price,
+                                                                    state=state)
 
     # Commit new basket to database
     await update_user_basket(user_id, basket_name, basket_count)
@@ -114,11 +114,11 @@ async def show_goods_basket(message: types.Message):
 @dp.callback_query_handler(buy_item.filter())
 async def get_item_id(call: types.CallbackQuery, callback_data: dict, state: FSMContext):
     # Get item ID
-    item_id: str = callback_data.get('item_id')
+    item_id: int = int(callback_data.get('item_id'))
 
     # Take item ID to state
     async with state.proxy() as data:
-        data['item_id']: str = item_id
+        data['item_id']: int = item_id
 
     # Request count of item
     await request_item_count(call.message)
@@ -148,7 +148,6 @@ async def get_item_count(message: types.Message, state: FSMContext):
 # Get item name and size
 @dp.callback_query_handler(clothes_size.filter(), state=AddToBasket.Size)
 async def get_item_name_size(call: types.CallbackQuery, callback_data: dict, state: FSMContext):
-
     # Get item name and size
     async with state.proxy() as data:
         data['item_size']: str = callback_data.get('size')

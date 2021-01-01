@@ -1,6 +1,5 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
-from aiogram.types import ReplyKeyboardRemove
 
 from handlers.users import show_main_menu
 from loader import dp

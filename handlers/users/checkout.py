@@ -127,7 +127,7 @@ async def get_user_name(message: types.Message, state: FSMContext):
         await request_phone_number(message)
     else:  # Else return to basket
         await state.reset_state()
-        await show_goods_basket(message, state)
+        await show_goods_basket(message)
 
 
 # Get user phone number and send information about order
@@ -140,35 +140,35 @@ async def get_user_phone_number(message: types.Message, state: FSMContext):
     # Get user phone number
     # Check for types
     async with state.proxy() as data:
-        if message.content_type == 'CONTACT':
+        if message.content_type == 'contact':
             data['phone_number']: str = message.contact.phone_number
         else:
             data['phone_number']: str = message.text
 
-    # Check for correct input data
-    if (data['phone_number'].isdigit() or (data['phone_number'][1:].isdigit() and data['phone_number'][0] == '+'))\
-            and 10 <= len(data['phone_number']) <= 12:
-        # Commit it to database
-        await update_user_phone_number(user_id, data['phone_number'])
+        # Check for correct input data
+        if (data['phone_number'].isdigit() or (data['phone_number'][1:].isdigit() and data['phone_number'][0] == '+'))\
+                and 10 <= len(data['phone_number']) <= 12:
+            # Commit it to database
+            await update_user_phone_number(user_id, data['phone_number'])
 
-        # Forming email message
-        message_text = await form_email_message_text(user_id)
+            # Forming email message
+            message_text = await form_email_message_text(user_id)
 
-        # Send email
-        await send_email(message_text)
+            # Send email
+            await send_email(message_text)
 
-        # Clean user basket
-        await clean_basket(user_id)
+            # Clean user basket
+            await clean_basket(user_id)
 
-        # Finish state
-        await state.finish()
+            # Finish state
+            await state.finish()
 
-        # Send information about order status to user
-        await message.answer(text=f'Ваш заказ принят! Скоро с вами свяжутся')
+            # Send information about order status to user
+            await message.answer(text=f'Ваш заказ принят! Скоро с вами свяжутся')
 
-        # Return to main menu
-        await show_main_menu(message)
-    else:  # Else request phone number again
-        await message.answer(text=f'Упс) Похоже это не номер телефона. '
-                                  f'Пожалуйста проверьте корректность введеных данных')
-        await request_phone_number(message)
+            # Return to main menu
+            await show_main_menu(message)
+        else:  # Else request phone number again
+            await message.answer(text=f'Упс) Похоже это не номер телефона. '
+                                      f'Пожалуйста проверьте корректность введеных данных')
+            await request_phone_number(message)

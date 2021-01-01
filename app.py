@@ -1,3 +1,5 @@
+import logging
+
 from loader import db
 from utils import set_default_commands
 from utils.db_api import database, add_goods
@@ -9,17 +11,17 @@ async def on_startup(dispatcher):
     filters.setup(dispatcher)
     middlewares.setup(dispatcher)
 
-    print('Connect to DB')
+    logging.info('Connect to DB')
     await database.on_startup(dispatcher)
 
     # Only for first start
     # # Create table
-    # print('Create tables')
+    # logging.info('Create tables')
     # await db.gino.drop_all()
     # await db.gino.create_all()
     #
     # # Add goods
-    # print('Add goods to database')
+    # logging.info('Add goods to database')
     # await add_goods.add_items()
 
     from utils.notify_admins import on_startup_notify
