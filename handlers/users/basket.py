@@ -133,7 +133,7 @@ async def get_item_count(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         # Check for digit
         if message.text.isdigit():
-            # Check for restrictions [1; 100]
+            # Check for restrictions in interval [1; 100]
             if 1 <= int(message.text) <= 100:
                 # Get name and count of item
                 data['item_count']: int = int(message.text)
