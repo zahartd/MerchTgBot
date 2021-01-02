@@ -131,15 +131,21 @@ async def get_item_count(message: types.Message, state: FSMContext):
     user_id: int = message.from_user.id
 
     async with state.proxy() as data:
+        # Check for digit
         if message.text.isdigit():
-            # Get name and count of item
-            data['item_count']: int = int(message.text)
-            item: Item = await get_item(data['item_id'])
-            data['item_name']: str = item.name
-            data['user_id']: int = user_id
+            # Check for restrictions [1; 100]
+            if 1 <= int(message.text) <= 100:
+                # Get name and count of item
+                data['item_count']: int = int(message.text)
+                item: Item = await get_item(data['item_id'])
+                data['item_name']: str = item.name
+                data['user_id']: int = user_id
 
-            # Request size of item
-            await request_item_size(message)
+                # Request size of item
+                await request_item_size(message)
+            else:
+                await message.answer(text=f'Введите пожалуйста число в интервале от 1 до 100')
+                await request_item_count(message)
         else:
             await message.answer(text=f'Упс) Похоже это не число. Пожалуйста введите число')
             await request_item_count(message)

@@ -10,6 +10,9 @@ main_menu = ReplyKeyboardMarkup(
         [
             KeyboardButton(text='Мерч 👑'),
             KeyboardButton(text='Корзина 🧺'),
+        ],
+        [
+            KeyboardButton(text='Cd')
         ]
     ],
     resize_keyboard=True
