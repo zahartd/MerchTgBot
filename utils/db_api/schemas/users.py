@@ -10,11 +10,16 @@ class User(db.Model):
     # Unique User ID
     id: int = Column(BigInteger, Sequence('user_id_seq'), primary_key=True)
 
-    name: str = Column(String(100))  # Username
+    nickname: str = Column(String(100))  # User nickname
+    username: str = Column(String(100))  # User name
+    name: str = Column(String(100))  # User real name
     basket_name: list[str] = Column(ARRAY(String))  # User current goods name in basket
     basket_count: list[int] = Column(ARRAY(Integer))  # User current goods count in basket
-    order_name: str = Column(String(100))  # User order
+    basket_item_price: list[int] = Column(ARRAY(Integer))  # User current goods item price in basket
     phone_number: str = Column(String(20))  # User phone number
+    email: str = Column(String(100))  # User email
+    school: str = Column(String(100))  # User school
+    district: str = Column(String(100))  # User district
     total_price: int = Column(BigInteger)  # User basket total price
 
     query: sql.Select

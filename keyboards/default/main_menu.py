@@ -4,6 +4,9 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 main_menu = ReplyKeyboardMarkup(
     keyboard=[
         [
+            KeyboardButton(text='Будущие мероприятия 🔮'),
+        ],
+        [
             KeyboardButton(text='Информация ℹ'),
             KeyboardButton(text='Список активных школ 📃'),
         ],
@@ -12,7 +15,10 @@ main_menu = ReplyKeyboardMarkup(
             KeyboardButton(text='Корзина 🧺'),
         ],
         [
-            KeyboardButton(text='Cd')
+            KeyboardButton(text='Задать вопрос РДШ 📧')
+        ],
+        [
+            KeyboardButton(text='Сообщить об ошибке в боте 📍')
         ]
     ],
     resize_keyboard=True

@@ -15,6 +15,10 @@ class Item(db.Model):
     emodji: str = Column(String(50))
     photos: list = Column(ARRAY(item_type=String))
     price: int = Column(Integer)
+    category_name: str = Column(String(50))
+    category_code: str = Column(String(20))
+    subcategory_name: str = Column(String(50))
+    subcategory_code: str = Column(String(20))
 
     query: sql.Select
 

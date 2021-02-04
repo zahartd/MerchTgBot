@@ -1,3 +1,8 @@
+import logging
+from typing import Any, Union
+
+from sqlalchemy import and_
+
 from asyncpg import UniqueViolationError
 
 from utils.db_api.database import db
@@ -12,12 +17,35 @@ async def add_item(**kwargs) -> Item:
     return new_item
 
 
-# Display all goods
-async def get_items() -> list[Item]:
-    return await Item.query.distinct(Item.name).gino.all()
+# Get categories
+async def get_categories() -> list[Item]:
+    return await Item.query.distinct(Item.category_code).gino.all()
 
 
-# Get a goods object by ID
+# Get subcategories
+async def get_subcategories(category) -> list[Item]:
+    return await Item.query.distinct(Item.subcategory_name).where(Item.category_code == category).gino.all()
+
+
+# Get all items
+async def get_items(category_code: str, subcategory_code: str = None) -> list[Item]:
+    item = await Item.query.where(Item.category_code == category_code).gino.all()
+    return item
+
+
+async def count_items(category_code: str, subcategory_code=None):
+    conditions = [Item.category_code == category_code]
+
+    if subcategory_code:
+        conditions.append(Item.subcategory_code == subcategory_code)
+
+    total = await db.select([db.func.count()]).where(
+        and_(*conditions)
+    ).gino.scalar()
+    return total
+
+
+# Get item by ID
 async def get_item(item_id: int) -> Item:
     item = await Item.query.where(Item.id == item_id).gino.first()
     return item
@@ -25,15 +53,17 @@ async def get_item(item_id: int) -> Item:
 
 # Users commands
 # Add a new user to database
-async def add_user(user_id: int, name: str, basket_name=None, basket_count=None,
-                   order_name: str = '', phone_number: str = '', total_price: int = 0):
+async def add_user(user_id: int, nickname: str, username: str, basket_name=None, basket_count=None,
+                   basket_item_price=None, name: str = '', phone_number: str = '', total_price: int = 0):
     if basket_name is None:
         basket_name: list[str] = []
     if basket_count is None:
         basket_count: list[int] = []
+    if basket_item_price is None:
+        basket_item_price: list[int] = []
     try:
-        user = User(id=user_id, name=name, basket_name=basket_name, basket_count=basket_count,
-                    order_name=order_name, phone_number=phone_number, total_price=total_price)
+        user = User(id=user_id, nickname=nickname, username=username, basket_name=basket_name, basket_count=basket_count,
+                    basket_item_price=basket_item_price, name=name, phone_number=phone_number, total_price=total_price)
         await user.create()
     except UniqueViolationError:
         pass
@@ -57,25 +87,24 @@ async def count_user() -> int:
     return total
 
 
-# Update user basket
-async def update_user_basket(user_id: int, basket_name: list[str], basket_count: list[int]):
-    user = await User.get(user_id)
-    await user.update(basket_name=basket_name, basket_count=basket_count).apply()
+async def get_user_database_data(user_id: int, data_name: str) -> Union[str, int, list, tuple, dict]:
+    # Get user
+    user: User = await get_user(user_id)
+
+    return getattr(user, data_name)
 
 
-# Update user order name
-async def update_user_order_name(user_id: int, order_name: str):
-    user = await User.get(user_id)
-    await user.update(order_name=order_name).apply()
+# Update user data
+async def update_user_data(user_id: int, **kwargs):
+    # Get user
+    user: User = await User.get(user_id)
+
+    # Update user data
+    await user.update(**kwargs).apply()
 
 
-# Update user phone number
-async def update_user_phone_number(user_id: int, phone_number: str):
-    user = await User.get(user_id)
-    await user.update(phone_number=phone_number).apply()
+async def get_basket_size(user_id: int, **kwargs) -> int:
+    basket: list[str] = await get_user_database_data(user_id, data_name='basket_name')
+    basket_size: int = len(basket)
 
-
-# Update user phone number
-async def update_user_total_price(user_id: int, total_price: int):
-    user = await User.get(user_id)
-    await user.update(total_price=total_price).apply()
+    return basket_size

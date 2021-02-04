@@ -1,15 +1,14 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
 
 
-# Checkout state
-class Checkout(StatesGroup):
+# Ask question state
+class ReportBug(StatesGroup):
+    ReportText = State()
     UserName = State()
     UserPhoneNumber = State()
-    UserSchool = State()
-    UserDistrict = State()
     UserEmail = State()
     Finish = State()
 
     @staticmethod
     def class_name():
-        return 'Checkout'
+        return 'ReportBug'
