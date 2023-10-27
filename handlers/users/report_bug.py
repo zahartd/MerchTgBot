@@ -33,7 +33,7 @@ async def finish_report(message: types.Message, state: FSMContext):
     await state.finish()
 
     # Send information about question status to user
-    await message.answer(text=f'Ваш вопрос отправлен РДШ! Скоро вам ответят')
+    await message.answer(text=f'Ваш вопрос отправлен! Скоро вам ответят')
 
     # Return to main menu
     await show_main_menu(message)
@@ -43,7 +43,7 @@ async def finish_report(message: types.Message, state: FSMContext):
 @dp.message_handler(text='Сообщить об ошибке в боте 📍')
 @dp.message_handler(text='Сообщить об ошибке в боте')
 async def start_report(message: types.Message):
-    await message.answer(text=f'Здесь вы можете задать свой вопрос РДШ')
+    await message.answer(text=f'Здесь вы можете задать свой вопрос')
 
     # Ask for question text
     await ask_user(message=message, state=ReportBug,

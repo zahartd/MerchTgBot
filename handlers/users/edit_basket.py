@@ -84,11 +84,9 @@ async def delete_position(message: types.Message, state: FSMContext):
                     new_basket_name.append(basket_name_elm)
                     new_basket_count.append(basket_count_elm)
                     new_basket_item_price.append(basket_item_price_elm)
-                    logging.info('ffffffffffffffffffffffff', basket_name_elm, basket_count_elm, basket_item_price_elm)
                 else:
                     total_price -= basket_item_price_elm * basket_count_elm
 
-            logging.info('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', new_basket_item_price)
             await update_user_data(user_id, basket_name=new_basket_name, basket_count=new_basket_count,
                                    basket_item_price=new_basket_item_price, total_price=total_price)
 

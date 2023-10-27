@@ -12,14 +12,14 @@ from states import AddToBasket
 from data import poll_questions
 from handlers.users import ask_user, get_user_data, init_getting
 from utils import form_user_basket
-from utils.db_api.db_commands import get_user, get_item, update_user_data
+from utils.db_api.db_commands import get_user_by_id, get_item, update_user_data
 from utils.db_api.schemas.items import Item
 from utils.db_api.schemas.users import User
 
 
 async def finish_add_to_basket(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        user: User = await get_user(user_id=data['user_id'])
+        user: User = await get_user_by_id(user_id=data['user_id'])
         basket_name, basket_count, basket_item_price, total_price =\
             await form_user_basket(state_data=data, basket_name=user.basket_name, basket_count=user.basket_count,
                                    basket_item_price=user.basket_item_price, total_price=user.total_price)

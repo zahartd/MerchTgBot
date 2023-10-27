@@ -1,8 +1,12 @@
 import logging
 
-from loader import db
+from loader import db, bot
 from utils import set_default_commands
 from utils.db_api import database, add_goods
+
+
+async def on_shutdown(dispatcher):
+    await bot.close()
 
 
 async def on_startup(dispatcher):

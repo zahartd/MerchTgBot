@@ -38,7 +38,8 @@ async def list_categories(message: Union[types.CallbackQuery, types.Message], **
 
     # Check what kind of update it is. If Message - send a new message
     if isinstance(message, types.Message):
-        await message.answer(text=f'Смотри, что у нас есть: ', reply_markup=markup)
+        await message.answer(f'Вот такой мерч вы можете выйграть в наших конкурсах, подробнее о том как получить мерч, '
+                             f'ты можешь узнать у куратора в своей школе.', reply_markup=markup)
 
     # If CallbackQuery - change this message
     elif isinstance(message, types.CallbackQuery):
@@ -72,7 +73,8 @@ async def show_item(callback: types.CallbackQuery, category, item_id):
         album.attach_photo(photo)
 
     await callback.message.answer_media_group(media=album)
-    await callback.message.answer(text=f'{item.name}\nЦена: {item.price} руб.', reply_markup=markup)
+    await callback.message.answer(text=f'{item.name}', reply_markup=markup)
+    # await callback.message.answer(text=f'{item.name}\nЦена: {item.price} руб.', reply_markup=markup)
 
 
 # Merch list menu navigation

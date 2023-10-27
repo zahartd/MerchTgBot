@@ -5,8 +5,9 @@ from .ask_user import ask_user
 from .get_user_data import get_user_data
 from .get_user_data import init_getting
 from .start import dp
+from .mailing import dp
 from .help import dp
-from .admin import dp
+from .hello import dp
 from .main_menu import dp
 from .cancel import dp
 from .merch import dp

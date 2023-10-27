@@ -1,10 +1,10 @@
-from utils.db_api.db_commands import get_user
+from utils.db_api.db_commands import get_user_by_id
 from utils.db_api.schemas.users import User
 
 
 async def checkout(user_id: int) -> str:
     # Get user
-    user: User = await get_user(user_id)
+    user: User = await get_user_by_id(user_id)
 
     # Generate email message text
     message_text: str = f'Новый заказ: \nОт: {user.name}\nНомер телефона: {user.phone_number}\nEmail: {user.email}\n'
@@ -18,7 +18,7 @@ async def checkout(user_id: int) -> str:
 
 async def ask_question(user_id: int, question_text: str, question_subject: str) -> str:
     # Get user
-    user: User = await get_user(user_id)
+    user: User = await get_user_by_id(user_id)
 
     # Generate email message text
     message_text: str = f'Новый вопрос: \n'\
@@ -33,7 +33,7 @@ async def ask_question(user_id: int, question_text: str, question_subject: str) 
 
 async def report_bug(user_id: int, report_text: str) -> str:
     # Get user
-    user: User = await get_user(user_id)
+    user: User = await get_user_by_id(user_id)
 
     # Generate email message text
     message_text: str = f'Новое сообщение об ошибке: \n'\
@@ -46,7 +46,7 @@ async def report_bug(user_id: int, report_text: str) -> str:
 
 
 def checking_email(checking_code: str) -> str:
-    message_text: str = f'Ваш код подтверждения для заказа в боте РДШ: {checking_code}\n' \
+    message_text: str = f'Ваш код подтверждения для заказа в боте <НОС>: {checking_code}\n' \
                         f'Скопируйте код и пришлите его боту для окончания формления заказа.'
 
     return message_text

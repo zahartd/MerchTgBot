@@ -35,15 +35,15 @@ async def finish_question(message: types.Message, state: FSMContext):
     await state.finish()
 
     # Send information about question status to user
-    await message.answer(text=f'Ваш вопрос отправлен РДШ! Скоро вам ответят')
+    await message.answer(text=f'Ваш вопрос отправлен! Скоро вам ответят')
 
     # Return to main menu
     await show_main_menu(message)
 
 
 @dp.message_handler(Command('ask'))
-@dp.message_handler(text='Задать вопрос РДШ 📧')
-@dp.message_handler(text='Задать вопрос РДШ')
+@dp.message_handler(text='Задать вопрос 📧')
+@dp.message_handler(text='Задать вопрос')
 async def start_question(message: types.Message):
     await message.answer(text=f'Здесь вы можете задать свой вопрос РДШ')
 

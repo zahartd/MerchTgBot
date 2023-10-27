@@ -1,4 +1,5 @@
-from sqlalchemy import (Column, String, Sequence, ARRAY, BigInteger, Integer)
+from sqlalchemy import (Column, String, Sequence, BigInteger, Integer)
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy import sql
 from utils.db_api.database import db
 
@@ -21,7 +22,7 @@ class User(db.Model):
     school: str = Column(String(100))  # User school
     district: str = Column(String(100))  # User district
     total_price: int = Column(BigInteger)  # User basket total price
-
+    referral: int = Column(Integer)  # User referral
     query: sql.Select
 
     def __repr__(self):

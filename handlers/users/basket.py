@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.builtin import Command
 from handlers.users.main_menu import show_main_menu
 from keyboards.default import basket_menu, edit_basket_menu
 from loader import dp
-from utils.db_api.db_commands import get_user
+from utils.db_api.db_commands import get_user_by_id
 from utils.db_api.schemas.users import User
 
 
@@ -19,17 +19,12 @@ async def show_goods_basket(message: types.Message, mode: str = 'common'):
     user_id: int = message.from_user.id
 
     # Get User
-    user: User = await get_user(user_id)
+    user: User = await get_user_by_id(user_id)
 
     # Get current user basket
     basket_name: list[str] = user.basket_name
     basket_count: list[int] = user.basket_count
     basket_item_price: list[int] = user.basket_item_price
-
-    logging.info('Baskeeeeeeeeeeeeeeeeeet')
-    logging.info(basket_name)
-    logging.info(basket_count)
-    logging.info(basket_item_price)
 
     # Forming basket text
     text: str = ''

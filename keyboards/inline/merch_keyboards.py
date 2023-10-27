@@ -77,10 +77,10 @@ def item_keyboard(category, item_id, level: int = 3):
     CURRENT_LEVEL = level
     markup = InlineKeyboardMarkup()
     markup.row(
-        InlineKeyboardButton(
-            text=f'Добавить в корзину ➕',
-            callback_data=buy_item.new(item_id=item_id)
-        ),
+        # InlineKeyboardButton(
+        #     text=f'Добавить в корзину ➕',
+        #     callback_data=buy_item.new(item_id=item_id)
+        # ),
         InlineKeyboardButton(
             text='Назад 🔙',
             callback_data=make_callback_data(level=CURRENT_LEVEL - 1, category=category)

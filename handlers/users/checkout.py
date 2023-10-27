@@ -126,5 +126,5 @@ async def finish_checkout(message: types.Message, state: FSMContext):
             await Checkout.previous()
             data['checking_code']: str = gen_checking_code()
             message_text: str = forming_text.checking_email(data['checking_code'])
-            await send_email(message_text=message_text, email_subject='Код подтверждения от РДШ')
+            await send_email(message_text=message_text, email_subject='Код подтверждения', email_to=data['email'])
             await ask_user(message=message, state=Checkout, text=poll_questions['checking_code'], markup=poll_menu_main)

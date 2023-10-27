@@ -12,10 +12,9 @@ main_menu = ReplyKeyboardMarkup(
         ],
         [
             KeyboardButton(text='Мерч 👑'),
-            KeyboardButton(text='Корзина 🧺'),
         ],
         [
-            KeyboardButton(text='Задать вопрос РДШ 📧')
+            KeyboardButton(text='Задать вопрос 📧')
         ],
         [
             KeyboardButton(text='Сообщить об ошибке в боте 📍')
